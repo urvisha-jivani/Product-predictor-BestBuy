@@ -34,7 +34,7 @@ def scrape_bestbuy_tv_products(pages=5, page_size=24, region='ON'):
 
     return all_products
 
-def save_products_to_csv(products, filename='data/raw/tv_products_raw.csv'):
+def save_products_to_csv(products, filename='data/raw/products_raw.csv'):
     df = pd.DataFrame(products)
     os.makedirs(os.path.dirname(filename), exist_ok=True)
     df.to_csv(filename, index=False)
