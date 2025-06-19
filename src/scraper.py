@@ -4,6 +4,9 @@ import time
 import os
 import pandas as pd
 
+
+print("Starting Best Buy TV Products Scraper...")
+
 def scrape_bestbuy_tv_products(pages=5, page_size=24, region='ON'):
 
     base_url = "https://www.bestbuy.ca/api/v2/json/search"
@@ -31,4 +34,12 @@ def scrape_bestbuy_tv_products(pages=5, page_size=24, region='ON'):
 
     return all_products
 
+def save_products_to_csv(products, filename='data/raw/tv_products_raw.csv'):
+    df = pd.DataFrame(products)
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+    df.to_csv(filename, index=False)
+    print(f"Saved {len(df)} products to {filename}")
 
+if __name__ == '__main__':
+    products = scrape_bestbuy_tv_products(pages=10)
+    save_products_to_csv(products)
