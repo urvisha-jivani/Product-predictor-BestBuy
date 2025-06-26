@@ -9,7 +9,7 @@ print("Starting Best Buy TV Products Scraper...")
 
 # This script scrapes TV product data from Best Buy Canada using their public API.
 
-def scrape_bestbuy_tv_products(pages=5, page_size=24, region='ON'):
+def scrape_bestbuy_products(pages=5, page_size=24, region='ON'):
 
     base_url = "https://www.bestbuy.ca/api/v2/json/search"
     all_products = []
@@ -47,5 +47,5 @@ def save_products_to_csv(products, filename='data/raw/products_raw.csv'):
 # Main function to run the scraper and save the data
 
 if __name__ == '__main__':
-    products = scrape_bestbuy_tv_products(pages=10)
+    products = scrape_bestbuy_products(pages=10)
     save_products_to_csv(products)
