@@ -15,7 +15,7 @@ def analyze_sentiment(text):
     blob = TextBlob(cleaned)
     return blob.sentiment.polarity  # returns value between -1.0 to 1.0
 
-def score_reviews(input_path='data/processed/tv_reviews.csv', output_path='data/processed/tv_reviews_scored.csv'):
+def score_reviews(input_path='data/processed/product_reviews.csv', output_path='data/processed/product_reviews_scored.csv'):
     df = pd.read_csv(input_path)
     df['sentiment_score'] = df['review_text'].apply(analyze_sentiment)
     df.to_csv(output_path, index=False)
