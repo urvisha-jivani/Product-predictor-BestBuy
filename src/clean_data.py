@@ -23,6 +23,9 @@ def clean_product_data(input_path='data/raw/products_raw.csv', output_path='data
         'productUrl': 'url'
     }, inplace=True)
 
+    # Drop rows with missing price or rating
+    df_clean.dropna(subset=['price', 'rating'], inplace=True)
+
     df_clean.to_csv(output_path, index=False)
     print(f" Cleaned data saved to {output_path}")
 
