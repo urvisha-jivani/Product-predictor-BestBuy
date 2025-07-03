@@ -5,7 +5,7 @@ import pandas as pd
 def clean_product_data(input_path='data/raw/products_raw.csv', output_path='data/processed/products_clean.csv'):
     df = pd.read_csv(input_path)
 
-    print(df.head())  # Display the first few rows for verification
+    # print(df.head())  # Display the first few rows for verification
 
     # Keep only useful columns
     df_clean = df[[
