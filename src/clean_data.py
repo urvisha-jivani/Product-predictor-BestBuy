@@ -5,11 +5,13 @@ import pandas as pd
 def clean_product_data(input_path='data/raw/products_raw.csv', output_path='data/processed/products_clean.csv'):
     df = pd.read_csv(input_path)
 
+    print(df.head())  # Display the first few rows for verification
+
     # Keep only useful columns
     df_clean = df[[
         'name',
         'salePrice',
-        'customerReviewAverage',
+        'customerRating',
         'customerReviewCount',
         'productUrl'
     ]].copy()
@@ -18,7 +20,7 @@ def clean_product_data(input_path='data/raw/products_raw.csv', output_path='data
     df_clean.rename(columns={
         'name': 'product_name',
         'salePrice': 'price',
-        'customerReviewAverage': 'rating',
+        'customerRating': 'rating',
         'customerReviewCount': 'review_count',
         'productUrl': 'url'
     }, inplace=True)
