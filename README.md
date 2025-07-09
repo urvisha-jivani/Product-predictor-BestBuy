@@ -1,12 +1,13 @@
 # product-predictor-bestbuy
-A Python project that scrapes product and review data from Best Buy, performs sentiment analysis on reviews, and predicts the most loved TVs.
+A Python-based project that scrapes TV product data from Best Buy, processes it, and predicts the most popular products based on customer ratings and review counts. It includes an interactive dashboard built with Streamlit to explore top-ranked TVs.
 
 ## Features
-- Scrapes TV product data using Best Buy's JSON API
-- Cleans and structures the dataset for analysis
-- Uses sentiment analysis (TextBlob) on user reviews
-- Scores and ranks products based on rating, review count, and sentiment
-- Interactive Streamlit dashboard for exploring top products
+- Scrapes TV product data from Best Buy's public JSON API
+- Cleans and structures raw product data
+- Scores and ranks products using customer rating and review count
+- Interactive Streamlit dashboard to view top products
+- Modular pipeline with separate scripts for scraping, cleaning, scoring, and visualization
+
 
 ## 🛠️ Setup Instructions
 
@@ -29,3 +30,10 @@ python src/scraper.py
 python src/clean_data.py
 python src/predictor.py
 ```
+
+4. **Launch the dashboard:**
+
+```bash
+streamlit run app.py
+```
+
