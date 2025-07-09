@@ -14,7 +14,7 @@ A Python-based project that scrapes TV product data from Best Buy, processes it,
 1. **Clone the repo:**
 
 ```bash
-git clone https://github.com/urvisha-jivani/product-predictor-bestbuy.git
+git clone https://github.com/urvisha-jivani/Product-predictor-BestBuy.git
 ```
 
 2. **Install dependencies:**
