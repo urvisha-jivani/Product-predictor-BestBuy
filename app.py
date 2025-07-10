@@ -22,7 +22,7 @@ search_term = st.sidebar.text_input("Search product name")
 min_price, max_price = int(df['price'].min()), int(df['price'].max())
 price_range = st.sidebar.slider("Price range", min_price, max_price, (min_price, max_price))
 
-# Apply filters
+# Price and Product filters
 filtered_df = df[
     (df['price'] >= price_range[0]) &
     (df['price'] <= price_range[1]) &
