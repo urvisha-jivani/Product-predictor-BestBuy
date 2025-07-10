@@ -5,33 +5,63 @@ import pandas as pd
 @st.cache_data
 def load_data():
     df = pd.read_csv('data/processed/products_clean.csv')
-
-    # Check and handle missing values
     df['rating'] = df['rating'].fillna(0)
     df['review_count'] = df['review_count'].fillna(0)
-
-    # Calculate score
-    if 'avg_sentiment' in df.columns:
-        df['score'] = (df['rating'] * 0.5 +
-                       df['review_count'] * 0.3 +
-                       df['avg_sentiment'] * 0.2)
-    else:
-        df['score'] = (df['rating'] * 0.6 +
-                       df['review_count'] * 0.4)
-
-    return df.sort_values(by='score', ascending=False)
+    df['price'] = df['price'].fillna(0)
+    return df
 
 df = load_data()
 
-# App UI
+# Sidebar filters
+st.sidebar.header("Filter Products")
+
+# Search
+search_term = st.sidebar.text_input("Search product name")
+
+# Price range
+min_price, max_price = int(df['price'].min()), int(df['price'].max())
+price_range = st.sidebar.slider("Price range", min_price, max_price, (min_price, max_price))
+
+# Apply filters
+filtered_df = df[
+    (df['price'] >= price_range[0]) &
+    (df['price'] <= price_range[1]) &
+    (df['product_name'].str.contains(search_term, case=False, na=False))
+].copy()
+
+# Compute score
+filtered_df['score'] = (filtered_df['rating'] * 0.6 + filtered_df['review_count'] * 0.4)
+
+# Sort products
+filtered_df = filtered_df.sort_values(by='score', ascending=False)
+
+# Main content
 st.title("Best Buy TV Product Predictor")
-st.subheader("Top TVs Ranked by Ratings and Reviews")
+st.subheader("Ranked by Customer Rating and Review Count")
 
-top_n = st.slider("Number of Products to Display", min_value=5, max_value=50, value=10)
+top_n = st.slider("Show Top N Products", min_value=5, max_value=50, value=10)
 
-st.write("### Top Products")
-st.dataframe(df[['product_name', 'price', 'rating', 'review_count', 'score']].head(top_n))
+st.markdown("### Top Products")
+
+# Make product name clickable
+filtered_df['product_link'] = filtered_df.apply(
+    lambda row: f"[{row['product_name']}]({row['url']})", axis=1
+)
+
+# Display table
+st.dataframe(
+    filtered_df[['product_link', 'price', 'rating', 'review_count', 'score']]
+    .rename(columns={
+        'product_link': 'Product',
+        'price': 'Price ($)',
+        'rating': 'Rating',
+        'review_count': 'Review Count',
+        'score': 'Score'
+    })
+    .head(top_n),
+    use_container_width=True
+)
 
 # Visualization
-st.write("### Rating vs. Review Count")
-st.scatter_chart(df.head(top_n)[['rating', 'review_count']])
+st.markdown("### Ratings vs Review Count")
+st.scatter_chart(filtered_df.head(top_n)[['rating', 'review_count']])
