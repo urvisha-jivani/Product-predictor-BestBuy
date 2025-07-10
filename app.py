@@ -49,18 +49,27 @@ filtered_df['product_link'] = filtered_df.apply(
 )
 
 # Display table
+# Prepare display DataFrame
+styled_df = filtered_df[['product_link', 'price', 'rating', 'review_count', 'score']].rename(columns={
+    'product_link': 'Product',
+    'price': 'Price ($)',
+    'rating': 'Rating',
+    'review_count': 'Review Count',
+    'score': 'Score'
+}).head(top_n)
+
+# Format numeric values
+styled_df['Price ($)'] = styled_df['Price ($)'].map('${:,.2f}'.format)
+styled_df['Rating'] = styled_df['Rating'].round(1)
+styled_df['Score'] = styled_df['Score'].round(2)
+
+# Display with Streamlit DataFrame UI
 st.dataframe(
-    filtered_df[['product_link', 'price', 'rating', 'review_count', 'score']]
-    .rename(columns={
-        'product_link': 'Product',
-        'price': 'Price ($)',
-        'rating': 'Rating',
-        'review_count': 'Review Count',
-        'score': 'Score'
-    })
-    .head(top_n),
-    use_container_width=True
+    styled_df,
+    use_container_width=True,
+    hide_index=True
 )
+
 
 # Visualization
 st.markdown("### Ratings vs Review Count")
